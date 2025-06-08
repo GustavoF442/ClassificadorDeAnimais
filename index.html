@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Classificador de Animais</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="https://www.unifebe.edu.br/site/wp-content/uploads/unifebe-logo-vertical.png" alt="Logo da Faculdade" id="logo">
+        <h1>Classificador de Animais</h1>
+        <p>Desenvolvido por: Gustavo Fraga, Carlos Gatis, João Sestrem e Jeferson Vasselai</p>
+    </header>
+
+    <main>
+        <section id="webcam-section">
+            <div id="webcam-container"></div>
+            <div id="label-container"></div>
+            <button onclick="init()">Iniciar Classificação</button>
+        </section>
+
+        <section id="result-container" class="hidden">
+            <h2>Animal Identificado:</h2>
+            <div id="animal-info">
+                <div id="animal-image" style="margin-bottom: 20px;">[Insira aqui a imagem do animal]</div>
+                <div id="animal-description"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Rede Neural Artificial - Docente: Jonathan Nau</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js" defer></script>
+    <script src="script.js" defer></script>
+</body>
+</html>
