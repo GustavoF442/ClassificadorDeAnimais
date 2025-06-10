@@ -30,16 +30,41 @@ async function loop() {
 
 async function predict() {
     const prediction = await model.predict(webcam.canvas);
+    labelContainer.innerHTML = ""; 
+
     for (let i = 0; i < maxPredictions; i++) {
         const p = prediction[i];
-        labelContainer.childNodes[i].innerHTML = `${p.className}: ${(p.probability * 100).toFixed(2)}%`;
 
+        const label = document.createElement("div");
+        label.style.fontWeight = "bold";
+        label.style.marginBottom = "4px";
+        label.textContent = p.className;
+
+        const barContainer = document.createElement("div");
+        barContainer.style.background = "#eee";
+        barContainer.style.borderRadius = "10px";
+        barContainer.style.overflow = "hidden";
+        barContainer.style.marginBottom = "10px";
+        barContainer.style.height = "20px";
+
+        const bar = document.createElement("div");
+        bar.style.height = "100%";
+        bar.style.width = `${(p.probability * 100).toFixed(2)}%`;
+        bar.style.background = "#4CAF50"; 
+        bar.style.transition = "width 0.3s";
+
+        barContainer.appendChild(bar);
+        labelContainer.appendChild(label);
+        labelContainer.appendChild(barContainer);
+
+        
         if (p.probability >= 0.99) {
             stopPrediction(p.className);
             break;
         }
     }
 }
+
 
 function stopPrediction(animalClass) {
     window.cancelAnimationFrame(predictionLoop);
@@ -57,10 +82,12 @@ function stopPrediction(animalClass) {
     imageContainer.innerHTML = "";
     imageContainer.appendChild(imgElement);
 
+    
     const sanitizedName = animalClass
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
+        .replace(/[\u0300-\u036f]/g, "") 
+        .replace(/[^a-z0-9]/g, "-"); 
 
     fetch(`fichas/${sanitizedName}.html`)
         .then(response => response.text())
